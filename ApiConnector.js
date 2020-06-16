@@ -113,6 +113,7 @@ class ApiConnector{
         liked:"True"
       }
       xhttp.open("POST", "api.php", true);
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhttp.send(result);
     }
     
@@ -132,6 +133,7 @@ class ApiConnector{
         liked:"False"
       }
       xhttp.open("POST", "api.php", true);
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhttp.send(result);
     }
   }
