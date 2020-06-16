@@ -21,7 +21,7 @@ class Player {
      * Joue l'audio audioElt
      */
     play() {
-        console.log("appel à la fonction play");
+        this.audioElt.play();
     }
 
     /**
@@ -30,14 +30,15 @@ class Player {
      */
 
     pause() {
-        console.log("Vous avez appeler la fonction pause");
+        this.audioElt.pause();
     }
 
     /**
      * Pause la Pré-écoute
      */
     pausePreEcoute() {
-        console.log("appel à la fonction pausePreEcoute");
+        this.audioElt.pause();
+        this.audioElt.currentTime = 0;
     }
 
     /**
@@ -69,5 +70,33 @@ class Player {
 
     hidePlaylist() {
         console.log("Vous avez appeler la fonction hidePlaylist");
+    }
+    
+    /**
+    * Rends aléatoire la lecture
+    */
+    randomOn(){
+        
+    }
+    
+    /**
+    * Remets la lecture normale de la playlist
+    */
+    randomOff(){
+        
+    }
+    
+    /**
+    * Répète la musique en boucle
+    */
+    repeatOn(){
+        
+    }
+    
+    /**
+    * Arrête la boucle de répétition
+    */
+    repeatOff(){
+        
     }
 }
