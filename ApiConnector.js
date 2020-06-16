@@ -59,7 +59,20 @@ class ApiConnector{
           }
         });
     
-        return result[0].tracks[0]
+        
+        var track = {
+        titre: "House of The Rising Sun",
+        artiste: "The Animals",
+        duree: 320,
+        urlAudio: "",
+        urlVisuel: "",
+        urlPartage: "",
+        dureeEcoute: 1,
+        read: 1,
+        liked: 0,
+        validUntil: ""
+
+        }
       }
     
   
@@ -93,15 +106,14 @@ class ApiConnector{
     *On fixe l'attribue liked a 1 pour indiquer qu'il est like
     */
     like(idTrack){
-        var result = list.filter(function(element){
-          if (element.id == idTrack){
-            return true;
-          } else {
-            return false;
-          }
-        });
-        result[0].tracks[0].liked = 1;
-        console.log(result);
+        
+      var result = {
+        id_pers : "",
+        id_fichier: idTrack,
+        liked:"True"
+      }
+      xhttp.open("POST", "api.php", true);
+      xhttp.send(result);
     }
     
   
@@ -114,15 +126,13 @@ class ApiConnector{
     *On fixe l'attribue liked a 0 pour indiquer qu'il est dislike
     */
     unlike(idtrack){
-        var result = list.filter(function(element){
-            if (element.id == idTrack){
-              return true;
-            } else {
-              return false;
-            }
-          });
-          result[0].tracks[0].liked = 0;
-          console.log(result);
+      var result = {
+        id_pers : "",
+        id_fichier: idTrack,
+        liked:"False"
+      }
+      xhttp.open("POST", "api.php", true);
+      xhttp.send(result);
     }
   }
   
