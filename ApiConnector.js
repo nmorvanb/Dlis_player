@@ -112,7 +112,7 @@ class ApiConnector{
         id_fichier: idTrack,
         liked:"True"
       }
-      xhttp.open("POST", "api.php", true);
+      xhttp.open("POST", "function.php", true);
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhttp.send(result);
     }
@@ -132,7 +132,7 @@ class ApiConnector{
         id_fichier: idTrack,
         liked:"False"
       }
-      xhttp.open("POST", "api.php", true);
+      xhttp.open("POST", "function.php", true);
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhttp.send(result);
     }
