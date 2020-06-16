@@ -108,16 +108,19 @@ class ApiConnector{
     like(idTrack){
         
       var result = {
-        id_pers : "",
+        id_pers : "10",
         id_fichier: idTrack,
-        liked:"True"
+        liked:1
       }
-      xhttp.open("POST", "function.php", true);
-      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xhttp.send(result);
-    }
-    
+      const jsonString = JSON.stringify(result);
+
+      const xhr = new XMLHttpRequest();
+        
+      xhr.open("POST", "function.php");
+      xhr.setRequestHeader("Content-type", "application/json");
+      xhr.send(jsonString);
   
+    }
     /**
     *Fonction like
     *@param idTrack
@@ -126,15 +129,19 @@ class ApiConnector{
     *comme il n'ya qu'une seule musique dans la liste, on va la récupérer en utilisant result[0].tracks[0]
     *On fixe l'attribue liked a 0 pour indiquer qu'il est dislike
     */
-    unlike(idtrack){
+    unlike(idTrack){
       var result = {
-        id_pers : "",
+        id_pers : "10",
         id_fichier: idTrack,
-        liked:"False"
+        liked:0
       }
-      xhttp.open("POST", "function.php", true);
-      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xhttp.send(result);
+      const jsonString = JSON.stringify(result);
+
+      const xhr = new XMLHttpRequest();
+        
+      xhr.open("POST", "function.php");
+      xhr.setRequestHeader("Content-type", "application/json");
+      xhr.send(jsonString);
     }
   }
   
