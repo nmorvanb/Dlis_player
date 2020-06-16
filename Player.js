@@ -10,11 +10,13 @@ class Player {
      * @param audioElt un HtmlMediaElement
      * @param tsDebutLecture le timestamp de debut de lecture
      * @param playlist la playlist
+     * @param listeVisuelle la file d'attente
      */
-    constructor(audioElt, tsDebutLecture, playlist) {
+    constructor(audioElt, tsDebutLecture, playlist, listeVisuelle) {
         this.audioElt = audioElt;
         this.tsDebutLecture = tsDebutLecture;
         this.playlist = playlist;
+        this.listeVisuelle = listeVisuelle;
     }
 
     /**
@@ -60,7 +62,7 @@ class Player {
      * Montre la playlist
      */
     showPlaylist() {
-        console.log("appel à la fonction showPlaylist");
+        this.listeVisuelle.style.display = "block";
     }
 
     /**
@@ -69,7 +71,7 @@ class Player {
      */
 
     hidePlaylist() {
-        console.log("Vous avez appeler la fonction hidePlaylist");
+        this.listeVisuelle.style.display = "none";
     }
     
     /**
@@ -100,3 +102,4 @@ class Player {
         
     }
 }
+
