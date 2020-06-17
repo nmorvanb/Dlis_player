@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        .tout{
+            position: fixed;
+            bottom: 0px;
+            width: 100%;
+        }
+        button{
+            padding: 15px 32px;
+            font-size: 16px;
+        }
+    </style>
+    <head>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="tout">
+            <div id="fileAttente">Contenu de la playlist
+                <ul>
+                    <li> 1 - Première chanson - Auteur 1 - 03:53 - 01/01/2019 </li>
+                    <li> 2 - Deuxième chanson - Auteur 2 - 02:35 - 25/06/2007 </li>
+                </ul>
+            </div>
+            <div class="boutons">
+                <button class="fa fa-backward" id="btnPrev"> Skip to previous</button>
+                <button class="fa fa-play" title="Play current" id="btnPlay"> Play</button>
+                <button class="fa fa-forward" id="btnNext"> Skip to next</button>
+                <button class="fa fa-random" title="Shuffle" id="btnRandom"> Shuffle</button>
+                <button class="fa fa-redo" title="Repeat" id="btnLoop"> Repeat track</button>
+                <button class="fa fa-list" title="Playlist" id="btnFileAttente"> Show playlist</button>
+                <button class="far fa-heart" title="Like" id="btnLike"> Like</button>
+            </div>
+        </div>
+    </body>
+    <script src="lpdlis/Player.js"></script>
+    <script>
+        var btnFileAttente = document.getElementById("btnFileAttente");
+        var fileAttente = document.getElementById("fileAttente");
+
+        var player = new Player(0,0,0,fileAttente);
+
+        btnFileAttente.addEventListener("click", function(){
+            if(getComputedStyle(fileAttente).display != "none"){
+                player.hidePlaylist();
+            } else {
+                player.showPlaylist();
+            }
+        });
+
+    </script>
+
+</html>
