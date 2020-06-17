@@ -108,38 +108,38 @@ class ApiConnector{
     like(idTrack){
         
       var result = {
+        function:"unlike",
         id_pers : "10",
         id_fichier: idTrack,
-        liked:1
       }
       const jsonString = JSON.stringify(result);
 
       const xhr = new XMLHttpRequest();
         
-      xhr.open("POST", "function.php");
+      xhr.open("POST", "ajax_function.php");
       xhr.setRequestHeader("Content-type", "application/json");
       xhr.send(jsonString);
   
     }
     /**
-    *Fonction like
+    *Fonction unlike
     *@param idTrack
-    *   l'id de la musique qui doit être like
+    *   l'id de la musique qui doit être unlike
     *result recurepere une liste des musiques ayant l'id demander à l'aide de filter
     *comme il n'ya qu'une seule musique dans la liste, on va la récupérer en utilisant result[0].tracks[0]
     *On fixe l'attribue liked a 0 pour indiquer qu'il est dislike
     */
     unlike(idTrack){
       var result = {
+        function:"unlike",
         id_pers : "10",
         id_fichier: idTrack,
-        liked:0
       }
       const jsonString = JSON.stringify(result);
 
       const xhr = new XMLHttpRequest();
         
-      xhr.open("POST", "function.php");
+      xhr.open("POST", "ajax_function.php");
       xhr.setRequestHeader("Content-type", "application/json");
       xhr.send(jsonString);
     }
