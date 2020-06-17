@@ -5,6 +5,9 @@ require 'Routing.class.php';
 
 /**
 * Fonction pour retourner au format JSON les caractéristique d'un morceaux
+* @param idTrack - id du fichier de musique
+* @param idPers - id de la session
+* @return trackjson - Les caractéristique de la musique au format JSON
 */
 function trackjson($idTrack,$idpers = null){
 
@@ -42,11 +45,14 @@ function trackjson($idTrack,$idpers = null){
 
   //Conversion en JSON
   $trackjson = json_encode($tabtrack);
-  print_r($trackjson);
+  return $trackjson;
+  //print_r($trackjson);
 }
 
 /**
 * Fonction qui permet de sauvegarder le like d'une musique dans la bdd
+* @param idfichier - id du fichier de musique
+* @param idPers - id de la session
 */
 function like($idpers,$idfichier){
   $req = DAO::getInstance()->prepare("INSERT INTO `mp3_coup_de_coeur`(`id_fichier`, `id_pers`, `liked`) VALUES (?,?,1) ON DUPLICATE KEY UPDATE `liked` = 1");
@@ -55,6 +61,8 @@ function like($idpers,$idfichier){
 
 /**
 *Fonction qui permet de sauvegarder le unlike d'une musique dans la bdd
+* @param idfichier - id du fichier de musique
+* @param idPers - id de la session
 */
 function unlike($idpers, $idfichier){
   $req = DAO::getInstance()->prepare("INSERT INTO `mp3_coup_de_coeur`(`id_fichier`, `id_pers`, `liked`) VALUES (?,?,0) ON DUPLICATE KEY UPDATE `liked` = 0");
