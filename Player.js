@@ -10,13 +10,13 @@ class Player {
      * @param audioElt un HtmlMediaElement
      * @param tsDebutLecture le timestamp de debut de lecture
      * @param playlist la playlist
-     * @param listeVisuelle la file d'attente
+     * @param fileAttente la file d'attente
      */
-    constructor(audioElt, tsDebutLecture, playlist, listeVisuelle) {
+    constructor(audioElt, tsDebutLecture, playlist, fileAttente) {
         this.audioElt = audioElt;
         this.tsDebutLecture = tsDebutLecture;
         this.playlist = playlist;
-        this.listeVisuelle = listeVisuelle;
+        this.fileAttente = fileAttente;
     }
 
     /**
@@ -47,7 +47,8 @@ class Player {
      * Joue l'audio suivant dans la playlist
      */
     playNext() {
-        console.log("appel à la fonction playNext");
+        this.audioElt.src = this.playlist.getNextTrack().getUrlAudio();
+        this.play();
     }
 
     /**
@@ -55,14 +56,15 @@ class Player {
      * 
      */
     playPrev() {
-        console.log("Vous avez appeler la fonction playPrev");
+        this.audioElt.src = this.playlist.getPrevTrack().getUrlAudio();
+        this.play();
     }
 
     /**
      * Montre la playlist
      */
     showPlaylist() {
-        this.listeVisuelle.style.display = "block";
+        this.fileAttente.style.display = "block";
     }
 
     /**
@@ -71,35 +73,34 @@ class Player {
      */
 
     hidePlaylist() {
-        this.listeVisuelle.style.display = "none";
+        this.fileAttente.style.display = "none";
     }
     
     /**
     * Rends aléatoire la lecture
     */
     randomOn(){
-        
+        this.playlist.setRandom(true);
     }
     
     /**
     * Remets la lecture normale de la playlist
     */
     randomOff(){
-        
+        this.playlist.setRandom(false);
     }
     
     /**
     * Répète la musique en boucle
     */
-    repeatOn(){
-        
+    loopOn(){
+        this.playlist.setLoop(true);
     }
     
     /**
     * Arrête la boucle de répétition
     */
-    repeatOff(){
-        
+    loopOff(){
+        this.playlist.setLoop(false);
     }
 }
-
