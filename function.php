@@ -69,11 +69,27 @@ function unlike($idpers, $idfichier){
   $req->execute(array($idfichier,$idpers));
 }
 
+/**
+* Fonction qui permet d'ajouter le temps de lecture et le nombre d'écoute
+* @param idfichier - id du fichier de musique
+* @param idPers - id de la session
+* @param sec - temps d'écoute pour un utilisateur
+*/
+function setReadTime($idpers,$idfichier,$sec){
+  $req = DAO::getInstance()->prepare("INSERT INTO `mp3_ecoutes`(`id_fichier`, `id_pers`, `date_first_ecoute`,`date_last_ecoute`,`ip`) VALUES (?,?,NOW(),NOW(),0) ON DUPLICATE KEY UPDATE `date_last_ecoute`= NOW() ");
+  $req->execute(array($idfichier,$idpers));
+
+  $req = DAO::getInstance()->prepare("UPDATE `mp3_fichiers` SET `nb_ecoutes`= nb_ecoutes+1 WHERE `id` = ?");
+  $req->execute(array($idfichier));
+}
+
 
 //Test
+setReadTime(2,353,16);
+
 //like(6,353);
 //unlike(6,353);
 //like(18,422);
 
 
-trackjson(209,2);
+//trackjson(209,2);
