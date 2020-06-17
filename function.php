@@ -11,42 +11,46 @@ require 'Routing.class.php';
 */
 function trackjson($idTrack,$idpers = null){
 
-  //Requête pour récuperer un morceau qui à déja été liker
-  $req = DAO::getInstance()->prepare("SELECT mp3_fichiers.id,profil_profils.id as idart,serveur,profil_profils.serveur_visuel,libelle as titre,libelle_hyper_lien as artiste,liked,mp3_coup_de_coeur.id_pers, nb_ecoutes as 'read', duree
-                                      FROM `profil_profils` INNER JOIN `mp3_fichiers` ON profil_profils.id = mp3_fichiers.id_profil_artiste INNER JOIN `mp3_coup_de_coeur` ON mp3_fichiers.id = mp3_coup_de_coeur.id_fichier
-                                      WHERE mp3_fichiers.id=? AND mp3_coup_de_coeur.id_pers=?");
-  $req->execute(array($idTrack,$idpers));
-  $tabtrack = $req->fetch(PDO::FETCH_ASSOC);
-
-  //Si la musique n'a jamais été liker on récupère seulement les information de la musique
-  if($tabtrack==null){
-    $req = DAO::getInstance()->prepare("SELECT mp3_fichiers.id, profil_profils.id as idart, serveur, profil_profils.serveur_visuel, libelle as titre, libelle_hyper_lien as artiste,nb_ecoutes as 'read',duree
-                                        FROM `profil_profils` INNER JOIN `mp3_fichiers` ON profil_profils.id = mp3_fichiers.id_profil_artiste
-                                        WHERE mp3_fichiers.id=?");
-    $req->execute(array($idTrack));
+    //Requête pour récuperer un morceau qui à déja été liker
+    $req = DAO::getInstance()->prepare("SELECT mp3_fichiers.id,profil_profils.id as idart,serveur,profil_profils.serveur_visuel,libelle as titre,libelle_hyper_lien as artiste,liked,mp3_coup_de_coeur.id_pers, nb_ecoutes as 'read', duree
+                                        FROM `profil_profils` INNER JOIN `mp3_fichiers` ON profil_profils.id = mp3_fichiers.id_profil_artiste INNER JOIN `mp3_coup_de_coeur` ON mp3_fichiers.id = mp3_coup_de_coeur.id_fichier
+                                        WHERE mp3_fichiers.id=? AND mp3_coup_de_coeur.id_pers=?");
+    $req->execute(array($idTrack,$idpers));
     $tabtrack = $req->fetch(PDO::FETCH_ASSOC);
-    $tabtrack["liked"] = 0;
-  }
 
-  //Recupération des url
-  $routing = new Musiques\Routing();
+    //Si la musique n'a jamais été liker on récupère seulement les information de la musique
+    if($tabtrack==null){
+      $req = DAO::getInstance()->prepare("SELECT mp3_fichiers.id, profil_profils.id as idart, serveur, profil_profils.serveur_visuel, libelle as titre, libelle_hyper_lien as artiste,nb_ecoutes as 'read',duree
+                                          FROM `profil_profils` INNER JOIN `mp3_fichiers` ON profil_profils.id = mp3_fichiers.id_profil_artiste
+                                          WHERE mp3_fichiers.id=?");
+      $req->execute(array($idTrack));
+      $tabtrack = $req->fetch(PDO::FETCH_ASSOC);
+      $tabtrack["liked"] = 0;
+    }
 
-  //Le morceau mp3
-  $tabtrack['urlAudio'] = $routing->morceau($tabtrack['idart'],$tabtrack['id'],$tabtrack['serveur']);
+    //Recupération des url
+    $routing = new Musiques\Routing();
 
-  //Le visuel
-  $tabtrack['urlVisuel'] = $routing->morceauVisuel($tabtrack['idart'], $tabtrack['id'], $tabtrack['serveur_visuel']);
+    //Le morceau mp3
+    $tabtrack['urlAudio'] = $routing->morceau($tabtrack['idart'],$tabtrack['id'],$tabtrack['serveur']);
 
-  //Supprime les valeurs qui ne sont plus necessaire dans l'envoi JSON
-  unset($tabtrack['idart']);
-  unset($tabtrack['serveur']);
-  unset($tabtrack['serveur_visuel']);
-  unset($tabtrack['id_pers']);
+    //Le visuel
+    $tabtrack['urlVisuel'] = $routing->morceauVisuel($tabtrack['idart'], $tabtrack['id'], $tabtrack['serveur_visuel']);
 
-  //Conversion en JSON
-  $trackjson = json_encode($tabtrack);
-  return $trackjson;
-  //print_r($trackjson);
+    //url pour le partage
+    $tabtrack['urlPartage'] = $routing->morceauPartage($tabtrack['idart'], $tabtrack['id']);
+
+    //Supprime les valeurs qui ne sont plus necessaire dans l'envoi JSON
+    unset($tabtrack['idart']);
+    unset($tabtrack['serveur']);
+    unset($tabtrack['serveur_visuel']);
+    unset($tabtrack['id_pers']);
+
+    //Conversion en JSON
+    $trackjson = json_encode($tabtrack);
+    return $trackjson;
+
+
 }
 
 /**
@@ -85,11 +89,11 @@ function setReadTime($idpers,$idfichier,$sec){
 
 
 //Test
-setReadTime(2,353,16);
+//setReadTime(2,353,16);
 
 //like(6,353);
 //unlike(6,353);
 //like(18,422);
 
 
-//trackjson(209,2);
+trackjson(209,2);
