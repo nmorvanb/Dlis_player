@@ -1,11 +1,17 @@
 class ApiConnector{
 
-        
-    
+    /**
+    * @function getInstance()
+    * Cette fonction appel l'instance de APIConnector
+    * @return - ApiConnector.instance L'instance en cours de ApiConnector
+    */
     static getInstance(){
-  
+      if(!ApiConnector.instance){
+        ApiConnector.instance = new ApiConnector();
+      }
+      return ApiConnector.instance;
     }
-  
+
     /**
      *@function getTrackInfos()
      *Cette fonction les information d'une musique
@@ -44,14 +50,14 @@ class ApiConnector{
 
           }
         }
-      
+
       xhr.open("GET", "ajax_function.php?id="+idTrack+"&f=trackjson",true);
       xhr.send();
- 
-       
+
+
     }
-    
-  
+
+
     /**
      *@function setReadTime()
      *Cette fonction envoie une durée d'écoute d'une musique par un utilisateur à l'aide d'un POST
@@ -82,14 +88,14 @@ class ApiConnector{
       const jsonString = JSON.stringify(list);
 
       const xhr = new XMLHttpRequest();
-        
+
       xhr.open("POST", "ajax_function.php",true);
       xhr.setRequestHeader("Content-type", "application/json");
       xhr.send(jsonString);
       //affiche dans la console ce qui est envoyer en POST
       console.log(jsonString);
     }
-  
+
     /**
      *@function like()
      *Cette fonction envoie une musique like par un utilisateur à l'aide d'un POST
@@ -108,20 +114,20 @@ class ApiConnector{
      *xhr send envoie a travers le POST, la varialble jsonString
     */
     like(idTrack){
-        
+
       var list = {
         function:"like",
         id_fichier: idTrack,
       }
       const jsonString = JSON.stringify(list);
       const xhr = new XMLHttpRequest();
-        
+
       xhr.open("POST", "ajax_function.php",true);
       xhr.setRequestHeader("Content-type", "application/json");
       xhr.send(jsonString);
       //affiche dans la console ce qui est envoyer en POST
       console.log(jsonString);
-  
+
     }
     /**
      *@function unlike()
@@ -148,7 +154,7 @@ class ApiConnector{
       const jsonString = JSON.stringify(list);
 
       const xhr = new XMLHttpRequest();
-        
+
       xhr.open("POST", "ajax_function.php",true);
       xhr.setRequestHeader("Content-type", "application/json");
       xhr.send(jsonString);
@@ -156,4 +162,3 @@ class ApiConnector{
       console.log(jsonString);
     }
   }
-  
