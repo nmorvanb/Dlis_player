@@ -1,0 +1,54 @@
+.entirePlayer{
+    display: flex;
+    position: fixed;
+    background-color: white;
+    bottom: 0px;
+    width: 100%;
+    min-width: 1080px;
+    padding-bottom: 1%;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.entirePlayer button:not(#btnFileAttente){
+    height: 10%;
+    width: 30%;
+    
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    overflow: hidden;
+    outline:none;
+
+    font-size: 16px;
+    
+}
+
+progress[value] {
+    -webkit-appearance: none;
+}​
+
+#btnFileAttente{
+    height: 10%;
+    width: 100%;
+    
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    overflow: hidden;
+    outline:none;
+
+    font-size: 16px;
+}
+
+.entirePlayer button:hover{
+    cursor: pointer;
+} 
+
+.entirePlayer img{
+    width: 20px;
+    height: 20px;
+}
+
+

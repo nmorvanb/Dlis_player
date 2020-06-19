@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="./css/player.css">
+    </head>
+    <body>
+        <div class="tout">
+            <div id="fileAttente">Contenu de la playlist
+                <ul>
+                    <li> 1 - Première chanson - Auteur 1 - 03:53 - 01/01/2019 </li>
+                    <li> 2 - Deuxième chanson - Auteur 2 - 02:35 - 25/06/2007 </li>
+                </ul>
+            </div>
+            <div class="entirePlayer">
+                <div id="playerControl">
+                    <button id="btnPrev"><img src="images/step-backward-solid.svg"></button>
+                    <button title="Play current" id="btnPlayPause" value="true"><img src="images/play-solid.svg"></button>
+                    <button id="btnNext"><img src="images/step-forward-solid.svg"></button>
+                </div>
+                <div>
+                    <img src="images/compact-disc-solid.svg">
+                </div> 
+                <div id="shareLove">
+                    <button id="share"><img src="images/share.svg"></button>
+                    <button title="Like" id="btnLike"><img src="images/heart.svg"></button>
+                </div>
+                <div id="progressMusic">
+                    <small id="start-time">01:00</small>
+                        <progress id="seekObj" value="0.4" max="1"></progress>
+                    <small id="end-time">03:30</small>
+                </div>
+                <div id="listeningMode">
+                    <button title="Shuffle" id="btnRandom"><img src="images/random-solid.svg"></button>
+                    <button title="Repeat" id="btnLoop"><img src="images/repeat.svg"></button>
+                    <button title="Volume" id="btnVolume"><img src="images/volume-up-solid.svg"></button>
+                </div>
+                <div>
+                    <button title="Playlist" id="btnFileAttente"><img src="images/playlist-plus.svg">File d'attente</button>
+                </div>    
+            </div>
+        </div>
+    </body>
+    <script src="./js/player.js"></script>
+    <script>
+        var btnPlayPause = document.getElementById("btnPlayPause");
+        var btnFileAttente = document.getElementById("btnFileAttente");
+        var fileAttente = document.getElementById("fileAttente");
+        
+        var player = new Player(0,0,0,fileAttente);
+
+        btnPlayPause.addEventListener("click", function(){
+            if(document.getElementById("btnPlayPause").value == "true"){
+                
+            }
+            /*
+            var pauseImg = document.createElement('img');
+            pauseImg.src="images/pause-solid.svg";
+            statePlayer = btnPlayPause.lastElementChild
+            console.log(statePlayer);
+            console.log(pauseImg.src);
+            btnPlayPause.replaceChild(pauseImg, statePlayer); */
+        });
+
+        btnFileAttente.addEventListener("click", function(){
+            if(getComputedStyle(fileAttente).display != "none"){
+                player.hidePlaylist();
+            } else {
+                player.showPlaylist();
+            }
+        });
+
+    </script>
+
+</html>
