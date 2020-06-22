@@ -11,12 +11,14 @@ class Player {
      * @param tsDebutLecture le timestamp de debut de lecture
      * @param playlist la playlist
      * @param fileAttente la file d'attente
+     * @param volumeSpan le volume
      */
-    constructor(audioElt, tsDebutLecture, playlist, fileAttente) {
+    constructor(audioElt, tsDebutLecture, playlist, fileAttente, volumeSpan) {
         this.audioElt = audioElt;
         this.tsDebutLecture = tsDebutLecture;
         this.playlist = playlist;
         this.fileAttente = fileAttente;
+        this.volumeSpan = volumeSpan;
     }
 
     /**
@@ -64,7 +66,7 @@ class Player {
      * Montre la playlist
      */
     showPlaylist() {
-        this.fileAttente.style.display = "block";
+        this.fileAttente.classList.add('active_playlist');
     }
 
     /**
@@ -73,7 +75,7 @@ class Player {
      */
 
     hidePlaylist() {
-        this.fileAttente.style.display = "none";
+        this.fileAttente.classList.remove('active_playlist');
     }
     
     /**
@@ -102,5 +104,20 @@ class Player {
     */
     loopOff(){
         this.playlist.setLoop(false);
+    }
+
+    /**
+     * Montre le volume
+     */
+    showVolume(){
+        this.volumeSpan.classList.add('active_volume');
+        
+    }
+
+    /**
+     * Fait disparaître le volume
+     */
+    hideVolume(){
+        this.volumeSpan.classList.remove('active_volume');
     }
 }

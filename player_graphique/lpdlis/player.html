@@ -5,7 +5,7 @@
     </head>
     <body>
         <div class="tout">
-            <div id="fileAttente">Contenu de la playlist
+            <div class="fileAttente">Contenu de la playlist
                 <ul>
                     <li> 1 - Première chanson - Auteur 1 - 03:53 - 01/01/2019 </li>
                     <li> 2 - Deuxième chanson - Auteur 2 - 02:35 - 25/06/2007 </li>
@@ -32,21 +32,30 @@
                 <div id="listeningMode">
                     <button title="Shuffle" id="btnRandom"><img src="images/random-solid.svg"></button>
                     <button title="Repeat" id="btnLoop"><img src="images/repeat.svg"></button>
-                    <button title="Volume" id="btnVolume"><img src="images/volume-up-solid.svg"></button>
+                    <span class="volume">
+                        <button title="Volume" id="btnVolume"><img src="images/volume-up-solid.svg"></button>
+                        <span class="volume_sliderTotale">
+                            <span class="volume_slider">
+                                <input class="volume-input-range" type="range" min="0" max="100" value="0" style="background-size: 50% 100%;"> 
+                            </span> 
+                        </span>
+                    </span>
                 </div>
                 <div>
                     <button title="Playlist" id="btnFileAttente"><img src="images/playlist-plus.svg">File d'attente</button>
                 </div>    
             </div>
+           
         </div>
     </body>
     <script src="./js/player.js"></script>
     <script>
         var btnPlayPause = document.getElementById("btnPlayPause");
-        var btnFileAttente = document.getElementById("btnFileAttente");
-        var fileAttente = document.getElementById("fileAttente");
+        var btnVolume = document.getElementById("btnVolume");
+        var fileAttente = document.querySelector(".fileAttente");
+        var volumeSpan = document.querySelector('.volume');
         
-        var player = new Player(0,0,0,fileAttente);
+        var player = new Player(0,0,0,fileAttente, volumeSpan);
 
         btnPlayPause.addEventListener("click", function(){
             if(document.getElementById("btnPlayPause").value == "true"){
@@ -62,13 +71,22 @@
         });
 
         btnFileAttente.addEventListener("click", function(){
-            if(getComputedStyle(fileAttente).display != "none"){
+            if(fileAttente.classList.contains("active_playlist")){
                 player.hidePlaylist();
+                //fileAttente.classList.remove('active_playlist');
             } else {
-                player.showPlaylist();
+                //fileAttente.classList.add('active_playlist');
+               player.showPlaylist();
             }
         });
 
+        btnVolume.addEventListener("click", function(){
+            if(volumeSpan.classList.contains("active_volume")){
+                player.hideVolume();
+            } else {
+                player.showVolume();
+            }
+        })
     </script>
 
 </html>
