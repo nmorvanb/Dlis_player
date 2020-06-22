@@ -75,7 +75,7 @@ progress[value] {
     display: block;
 }
 
-input[type=range].volume-input-range{
+input[type=range].volumeslider{
     -webkit-appearance: none;
     padding: 0;
     font: inherit;
@@ -98,7 +98,7 @@ input[type=range].volume-input-range{
 /* IE-Edge                      */
 /*==============================*/
 /* la zone de déplacement */
-input[type=range].volume-input-range::-ms-track {
+input[type=range].volumeslider::-ms-track {
     height: 100%;
     border: none;
     border-radius: 0;
@@ -106,7 +106,7 @@ input[type=range].volume-input-range::-ms-track {
     background-color: transparent;  /* supprimé définie sur l'input */
   }
   /* le curseur */
-  input[type=range].volume-input-range::-ms-thumb {
+  input[type=range].volumeslider::-ms-thumb {
     width: 1em;
     height: inherit;                /* s'adapte à la hauteur de l'input */
     border: none;                   /* supprimer la bordure */
@@ -115,15 +115,15 @@ input[type=range].volume-input-range::-ms-track {
     box-sizing: border-box;         /* même modèle de boîte pour tous */
   }
   /* la tooltip de la valeur */
-  input[type=range].volume-input-range::-ms-tooltip {
+  input[type=range].volumeslider::-ms-tooltip {
     display: none;                  /* supprime l'affichage de la valeur au survol */
   }
   /* barre progression avant */
-  input[type=range].volume-input-range::-ms-fill-lower {
+  input[type=range].volumeslider::-ms-fill-lower {
     background: transparent;
   }
   /* barre progression après */
-  input[type=range].volume-input-range::-ms-fill-upper {
+  input[type=range].volumeslider::-ms-fill-upper {
     background: transparent;
   }
 
@@ -131,14 +131,14 @@ input[type=range].volume-input-range::-ms-track {
 /* FireFox                      */
 /*==============================*/
 /* la zone de déplacement */
-input[type=range].volume-input-range::-moz-range-track {
+input[type=range].volumeslider::-moz-range-track {
     height: 100%;
     border: none;
     border-radius: 0;
     background-color: transparent;  /* supprimé définie sur l'input */
   }
   /* le curseur */
-  input[type=range].volume-input-range::-moz-range-thumb {
+  input[type=range].volumeslider::-moz-range-thumb {
     width: 1em;
     height: inherit;                /* s'adapte à la hauteur de l'input */
     border: none;                   /* supprimer la bordure */
@@ -147,12 +147,26 @@ input[type=range].volume-input-range::-moz-range-track {
     box-sizing: border-box;         /* même modèle de boîte pour tous */
   }
   /* barre progression avant */
-  input[type=range].volume-input-range::-moz-range-progress {
+  input[type=range].volumeslider::-moz-range-progress {
     height: 0;
     background: transparent;        /* supprime barre progression avant */
   }
 
+.im-pause{
+    background-image: url("../images/pause-solid.svg");
+}
 
+.im-play{
+    background-image: url("../images/play-solid.svg");
+}
+
+.im-heart{
+    background-image: url("../images/heart.svg");
+}
+
+.im-heart-plain{
+    background-image: url("../images/heart-plain.svg");
+}
 
 
 

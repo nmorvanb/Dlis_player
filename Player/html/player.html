@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../css/player.css">
+    </head>
+    <body>
+        <div class="tout">
+            <div class="fileAttente">Contenu de la playlist
+                <ul>
+                    <li> 1 - Première chanson - Auteur 1 - 03:53 - 01/01/2019 </li>
+                    <li> 2 - Deuxième chanson - Auteur 2 - 02:35 - 25/06/2007 </li>
+                </ul>
+            </div>
+            <div class="entirePlayer">
+                <audio id="audioElt" src="../file_example_MP3_2MG.mp3"  ontimeupdate="initProgressBar()"></audio>
+                <div id="playerControl">
+                    <button id="btnPrev"><img src="../images/step-backward-solid.svg"></button>
+                    <button title="Play current" id="btnPlayPause"><img class="im-play" id="imgPlayPause"></button>
+                    <button id="btnNext"><img src="../images/step-forward-solid.svg"></button>
+                </div>
+                <div>
+                    <img src="../images/compact-disc-solid.svg">
+                </div> 
+                <div id="shareLove">
+                    <button id="share" id="btnShare"><img src="../images/share.svg"></button>
+                    <button title="Like" id="btnLike"><img class="im-heart" id="imgLike"></button>
+                </div>
+                <div id="progressMusic">
+                    <small id="start-time"></small>
+                    <progress id="seekObj" value="0" max="1"></progress>
+                    <small id="end-time"></small>
+                </div>
+                <div id="listeningMode">
+                    <button title="Shuffle" id="btnRandom"><img src="../images/random-solid.svg"></button>
+                    <button title="Repeat" id="btnLoop"><img src="../images/repeat.svg"></button>
+                    <span class="volume">
+                        <button title="Volume" id="btnVolume"><img src="../images/volume-up-solid.svg"></button>
+                        <span class="volume_sliderTotale">
+                            <span class="volume_slider">
+                                <input class="volumeslider" type="range" min="0" max="100" value="0" step="1" style="background-size: 50% 100%;"> 
+                            </span> 
+                        </span>
+                    </span>
+                </div>
+                <div>
+                    <button title="Playlist" id="btnFileAttente"><img src="../images/playlist-plus.svg">File d'attente</button>
+                </div>    
+            </div>
+        </div>
+    </body>
+    <script src="../Playlist.js"></script>
+    <script src="../Player.js"></script>
+    <script>
+        //Récupérer les boutons
+        var btnPrev = document.getElementById("btnPrev");
+        var btnPlayPause = document.getElementById("btnPlayPause");
+        var btnNext = document.getElementById("btnNext");
+        var btnRandom = document.getElementById("btnRandom");
+        var btnLoop = document.getElementById("btnLoop");
+        var btnLike = document.getElementById("btnLike");
+        var btnVolume = document.getElementById("btnVolume");
+
+        //Récupérer les images
+        var imgPlayPause = document.getElementById("imgPlayPause");
+        var imgLike = document.getElementById("imglike");
+
+        //Récupérer les éléments du player
+        var audioElt = document.getElementById("audioElt");
+        var volumeslider = document.querySelector(".volumeslider");
+
+        var fileAttente = document.querySelector(".fileAttente");
+        var volumeSpan = document.querySelector('.volume');
+
+        //Créer le player
+        var player = new Player(audioElt,0,0,fileAttente, volumeSpan);
+
+        //Assigner des évènements aux boutons
+        btnPrev.addEventListener("click", function(){
+            player.playPrev();
+        });
+
+        btnPlayPause.addEventListener("click", function(){
+            if(audioElt.paused){
+                player.play();
+                imgPlayPause.classList.replace('im-play','im-pause');
+            }
+            else{
+                player.pause();
+                imgPlayPause.classList.replace('im-pause','im-play');
+            }
+        });
+
+        btnNext.addEventListener("click", function(){
+            player.playNext();
+        });
+
+        btnRandom.addEventListener("click", function(){
+            if(player.playlist.getRandom()){
+                player.playlist.setRandom(false);
+            }
+            else{
+                player.playlist.setRandom(true);
+            }
+        });
+
+        btnLoop.addEventListener("click", function(){
+            if(player.playlist.getLoop()){
+                player.playlist.setLoop(false);
+            }
+            else{
+                player.playlist.setLoop(true);
+            }
+        });
+
+        btnFileAttente.addEventListener("click", function(){
+            if(getComputedStyle(fileAttente).display != "none"){
+                player.hidePlaylist();
+            } else {
+                player.showPlaylist();
+            }
+        });
+
+        btnVolume.addEventListener("click", function(){
+            if(volumeSpan.classList.contains("active_volume")){
+                player.hideVolume();
+            } else {
+                player.showVolume();
+            }
+        })
+
+        btnLike.addEventListener("click", function(){
+            var track = player.playlist.getCurrentTrack();
+            if(player.playlist.getCurrentTrack().getLike()){
+                player.playlist.setLike(track.id, false);
+                imgLike.classList.replace('im-heart-plain','im-heart');
+            }
+            else{
+                player.playlist.setLike(track.id, true);
+                imgLike.classList.replace('im-heart','im-heart-plain');
+            }
+        });
+
+        //Calcule la durée totale en minutes:secondes
+        function calculateTotalValue(length) {
+            var minutes = Math.floor(length / 60),
+                seconds_int = length - minutes * 60,
+                seconds_str = seconds_int.toString(),
+                seconds = seconds_str.substr(0, 2),
+                time = minutes + ':' + seconds
+
+            return time;
+        }
+
+        //Calcule la durée actuelle en minutes:secondes
+        function calculateCurrentValue(currentTime) {
+            var current_hour = parseInt(currentTime / 3600) % 24,
+                current_minute = parseInt(currentTime / 60) % 60,
+                current_seconds_long = currentTime % 60,
+                current_seconds = current_seconds_long.toFixed(),
+                current_time = (current_minute < 10 ? "0" + current_minute : current_minute) + ":" + (current_seconds < 10 ? "0" + current_seconds : current_seconds);
+
+            return current_time;
+        }
+
+        //Met à jour la barre de progression ainsi que la valeur d'avancement, permet aussi de cliquer sur la barre
+        function initProgressBar() {
+            var length = audioElt.duration;
+            var current_time = audioElt.currentTime;
+
+            var progressbar = document.getElementById('seekObj');
+            progressbar.value = (audioElt.currentTime / audioElt.duration);
+            progressbar.addEventListener("click", seek);
+
+            document.getElementById("end-time").innerHTML = calculateTotalValue(length);
+            document.getElementById("start-time").innerHTML = calculateCurrentValue(current_time);
+
+            function seek(evt) {
+                var percent = evt.offsetX / this.offsetWidth;
+                audioElt.currentTime = percent * audioElt.duration;
+                progressbar.value = percent / 100;
+            }
+        };
+
+        volumeslider.addEventListener("mousemove", function(){
+            audioElt.volume = volumeslider.value / 100;
+        });
+
+    </script>
+
+</html>

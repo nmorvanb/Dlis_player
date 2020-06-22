@@ -19,6 +19,7 @@ class Player {
         this.playlist = playlist;
         this.fileAttente = fileAttente;
         this.volumeSpan = volumeSpan;
+
     }
 
     /**
