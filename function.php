@@ -28,6 +28,18 @@ function trackjson($idTrack,$idpers = null){
       $tabtrack["liked"] = 0;
     }
 
+    $req_duree = DAO::getInstance()->prepare("SELECT mp3_ecoutes.duree_ecoute as duree
+                                        FROM `mp3_ecoutes`
+                                        WHERE mp3_ecoutes.id_fichier=? AND mp3_ecoutes.id_pers=?");
+    $req_duree->execute(array($idTrack,$idpers));
+    $duree = $req_duree->fetch(PDO::FETCH_ASSOC);
+    if($duree == null)
+    {
+      $tabtrack['duree'] = 0;
+    }
+    else{
+      $tabtrack['duree'] = $duree['duree'];
+    }
     //Recupération des url
     $routing = new Musiques\Routing();
 
@@ -80,8 +92,8 @@ function unlike($idpers, $idfichier){
 * @param sec - temps d'écoute pour un utilisateur
 */
 function setReadTime($idpers,$idfichier,$sec){
-  $req = DAO::getInstance()->prepare("INSERT INTO `mp3_ecoutes`(`id_fichier`, `id_pers`, `date_first_ecoute`,`date_last_ecoute`,`ip`,`dureeEcoute`) VALUES (?,?,NOW(),NOW(),0,?) ON DUPLICATE KEY UPDATE `date_last_ecoute`= NOW(), `dureeEcoute` = ? ");
-  $req->execute(array($idfichier,$idpers,$sec,$sec));
+  $req = DAO::getInstance()->prepare("INSERT INTO `mp3_ecoutes`(`id_fichier`, `id_pers`, `date_first_ecoute`,`date_last_ecoute`,`ip`,`duree_ecoute`) VALUES (?,?,NOW(),NOW(),0,?) ON DUPLICATE KEY UPDATE `date_last_ecoute`= NOW(), `duree_ecoute` = `duree_ecoute` + 10 ");
+  $req->execute(array($idfichier,$idpers,$sec));
 
   $req = DAO::getInstance()->prepare("UPDATE `mp3_fichiers` SET `nb_ecoutes`= nb_ecoutes+1 WHERE `id` = ?");
   $req->execute(array($idfichier));

@@ -28,6 +28,6 @@ require 'function.php';
 //setReadTime
 //Ajout +1 musique écoute
 //Ajoute l'ecoute a mp3_ecoute
-//setReadTime(3,209,56); //OK
+setReadTime(3,209,56); //OK
 //Modifie la date de dernière ecoute
 //setReadTime(3,209,56); //OK
