@@ -80,8 +80,8 @@ function unlike($idpers, $idfichier){
 * @param sec - temps d'écoute pour un utilisateur
 */
 function setReadTime($idpers,$idfichier,$sec){
-  $req = DAO::getInstance()->prepare("INSERT INTO `mp3_ecoutes`(`id_fichier`, `id_pers`, `date_first_ecoute`,`date_last_ecoute`,`ip`) VALUES (?,?,NOW(),NOW(),0) ON DUPLICATE KEY UPDATE `date_last_ecoute`= NOW() ");
-  $req->execute(array($idfichier,$idpers));
+  $req = DAO::getInstance()->prepare("INSERT INTO `mp3_ecoutes`(`id_fichier`, `id_pers`, `date_first_ecoute`,`date_last_ecoute`,`ip`,`dureeEcoute`) VALUES (?,?,NOW(),NOW(),0,?) ON DUPLICATE KEY UPDATE `date_last_ecoute`= NOW(), `dureeEcoute` = ? ");
+  $req->execute(array($idfichier,$idpers,$sec,$sec));
 
   $req = DAO::getInstance()->prepare("UPDATE `mp3_fichiers` SET `nb_ecoutes`= nb_ecoutes+1 WHERE `id` = ?");
   $req->execute(array($idfichier));
