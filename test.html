@@ -6,12 +6,23 @@
 
 <body>
  <script type="text/javascript">
-  track = new ApiConnector();
-  track.getTrackInfos(353);
-  //track.like(353);
-  //track.getTrackInfos(353);
-  //track.unlike(353);
-  //track.getTrackInfos(353);
+  //ICI toutes les fonctions sont en commentaire,
+  //comme est sont asynchrone elle s'executerait dans le mauvais ordre
+  //les post de like ou unlike plus rapide que les get de getTrackInfos par exemple
+  //Création de l'instance ApiConnector
+  track = ApiConnector.getInstance();
+
+  //On recupere les infos de la musique ayant l'id 355 dans la console
+  //Si l'utilisateur n'a jamais like ou dislike la musique, le parametre like est retourne a 0 par defaut
+  //track.getTrackInfos(355);
+  //l'utilisateur like la musique, on peux voir ce qui est envoyer dans le POST dans la console ou dans le Request Payload
+  //track.like(355);
+  //On recupere les infos de la musique, on remarque que le parametre like est passé a 1
+  //track.getTrackInfos(355);
+  //l'utilisateur unlike la musique, on peux voir ce qui est envoyer dans le POST dans la console ou dans le Request Payload
+  //track.unlike(355);
+  //On recupere les infos de la musique, on remarque que le parametre like est passé a 0
+  //track.getTrackInfos(355);
  </script>
 
 </body>
