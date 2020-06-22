@@ -1,57 +1,63 @@
 <!DOCTYPE html>
 <html>
-    <style>
-        .player{
-            position: fixed;
-            bottom: 0px;
-            width: 100%;
-        }
-        button{
-            padding: 15px 32px;
-            font-size: 16px;
-        }
-    </style>
     <head>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="./css/player.css">
     </head>
     <body>
-        <div class="player">
-            <audio id="audioElt" src="ressources/audio/ewen%20-%20One%20forgiven%20(original).mp3"  ontimeupdate="initProgressBar()" onvolumechange="changeBtnSound()"></audio>
-            <button class="fa fa-volume-up" id="btnSound"></button>
-            <input id="volumeslider" type="range" min="0" max="100" value="100" step="1">
+        <input id="volumeslider" type="range" min="0" max="100" value="100" step="1">
+        <div class="tout">
             <div id="fileAttente">Contenu de la playlist
                 <ul>
                     <li> 1 - Première chanson - Auteur 1 - 03:53 - 01/01/2019 </li>
                     <li> 2 - Deuxième chanson - Auteur 2 - 02:35 - 25/06/2007 </li>
                 </ul>
             </div>
-            <div class="boutons">
-                <button class="fa fa-backward" id="btnPrev"></button>
-                <button class="fa fa-play" title="Play current" id="btnPlay"></button>
-                <button class="fa fa-pause" title="Pause current" id="btnPause"></button>
-                <button class="fa fa-forward" id="btnNext"></button>
-                <button class="fa fa-random" title="Shuffle" id="btnRandom"></button>
-                <button class="fa fa-redo" title="Repeat" id="btnLoop"></button>
-                <small id="start-time"></small>
-                <progress id="seekObj" value="0" max="1"></progress>
-                <small id="end-time"></small>
-                <button class="fa fa-list" title="Playlist" id="btnFileAttente"></button>
-                <button class="far fa-heart" title="Like" id="btnLike"></button>
+            <div class="entirePlayer">
+                <audio id="audioElt" src="audio/Ben%20Murray-Smith%20-%20Grey%20Summer.mp3"  ontimeupdate="initProgressBar()"></audio>
+                <div id="playerControl">
+                    <button id="btnPrev"><img src="images/step-backward-solid.svg"></button>
+                    <button title="Play current" id="btnPlayPause"><img class="im-play" id="imgPlayPause"></button>
+                    <button id="btnNext"><img src="images/step-forward-solid.svg"></button>
+                </div>
+                <div>
+                    <img src="images/compact-disc-solid.svg">
+                </div> 
+                <div id="shareLove">
+                    <button id="share" id="btnShare"><img src="images/share.svg"></button>
+                    <button title="Like" id="btnLike"><img class="im-heart" id="imgLike"></button>
+                </div>
+                <div id="progressMusic">
+                    <small id="start-time"></small>
+                    <progress id="seekObj" value="0" max="1"></progress>
+                    <small id="end-time"></small>
+                </div>
+                <div id="listeningMode">
+                    <button title="Shuffle" id="btnRandom"><img src="images/random-solid.svg"></button>
+                    <button title="Repeat" id="btnLoop"><img src="images/repeat.svg"></button>
+                    <button title="Volume" id="btnVolume"><img src="images/volume-up-solid.svg"></button>
+                </div>
+                <div>
+                    <button title="Playlist" id="btnFileAttente"><img src="images/playlist-plus.svg">File d'attente</button>
+                </div>    
             </div>
         </div>
     </body>
-    <script src="lpdlis/Playlist.js"></script>
-    <script src="lpdlis/Player.js"></script>
+    <script src="js/Playlist.js"></script>
+    <script src="js/Player.js"></script>
     <script>
         //Récupérer les boutons
         var btnPrev = document.getElementById("btnPrev");
-        var btnPlay = document.getElementById("btnPlay");
-        var btnPause = document.getElementById("btnPause");
+        var btnPlayPause = document.getElementById("btnPlayPause");
         var btnNext = document.getElementById("btnNext");
         var btnRandom = document.getElementById("btnRandom");
         var btnLoop = document.getElementById("btnLoop");
         var btnFileAttente = document.getElementById("btnFileAttente");
         var btnLike = document.getElementById("btnLike");
+        var btnVolume = document.getElementById("btnVolume");
+
+        //Récupérer les images
+        var imgPlayPause = document.getElementById("imgPlayPause");
+        var imgLike = document.getElementById("imglike");
 
         //Récupérer les éléments du player
         var fileAttente = document.getElementById("fileAttente");
@@ -61,24 +67,20 @@
         //Créer le player
         var player = new Player(audioElt,0,0,fileAttente);
 
-        //temporaire bouton pause invisible
-        btnPause.style.display = "none";
-
         //Assigner des évènements aux boutons
         btnPrev.addEventListener("click", function(){
             player.playPrev();
         });
 
-        btnPlay.addEventListener("click", function(){
-            player.play();
-            btnPlay.style.display = "none";
-            btnPause.style.display = "inline";
-        });
-
-        btnPause.addEventListener("click", function(){
-            player.pause();
-            btnPause.style.display = "none";
-            btnPlay.style.display = "inline";
+        btnPlayPause.addEventListener("click", function(){
+            if(audioElt.paused){
+                player.play();
+                imgPlayPause.classList.replace('im-play','im-pause');
+            }
+            else{
+                player.pause();
+                imgPlayPause.classList.replace('im-pause','im-play');
+            }
         });
 
         btnNext.addEventListener("click", function(){
@@ -112,8 +114,15 @@
         });
 
         btnLike.addEventListener("click", function(){
-            btnLike.classList.toggle('far');
-            btnLike.classList.toggle('fa');
+            var track = player.playlist.getCurrentTrack();
+            if(player.playlist.getCurrentTrack().getLike()){
+                player.playlist.setLike(track.id, false);
+                imgLike.classList.replace('im-heart-plain','im-heart');
+            }
+            else{
+                player.playlist.setLike(track.id, true);
+                imgLike.classList.replace('im-heart','im-heart-plain');
+            }
         });
 
         //Calcule la durée totale en minutes:secondes
@@ -160,15 +169,6 @@
         volumeslider.addEventListener("mousemove", function(){
             audioElt.volume = volumeslider.value / 100;
         });
-
-        function changeBtnSound(){
-            if(audioElt.volume == 0){
-                btnSound.classList.replace('fa-volume-up','fa-volume-off');
-            }
-            else{
-                btnSound.classList.replace('fa-volume-off','fa-volume-up');
-            }
-        }
 
     </script>
 
